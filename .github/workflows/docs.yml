@@ -1,8 +1,9 @@
-name: Builder Dashboard
+name: Build Dashboard
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,26 +14,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: pip install mkdocs mkdocs-material
-
-      - name: Build site
-        run: mkdocs build --clean
-
-      - name: Upload built site artifact
-        uses: actions/upload-pages-artifact@v2
+          python-version: "3.11"
+      - run: pip install mkdocs mkdocs-material
+      - run: mkdocs build --clean
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
+    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v4
