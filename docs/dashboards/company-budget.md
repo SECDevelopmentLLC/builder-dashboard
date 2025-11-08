@@ -1,46 +1,74 @@
-# 🏗 Company Budget Overview
+# Company Budget Overview
 
-This dashboard tracks **project budgets vs actual spending** across all active construction projects.
-It provides real-time visibility into where money is being allocated and whether spending is staying on track.
-
----
-
-## 📊 Key Metrics
-
-| Term | Meaning |
-|------|---------|
-| **Budgeted Cost** | Approved spending amount for the project |
-| **Actual Cost (Spent)** | Real dollars spent to date |
-| **Remaining** | Budget - Spent |
-| **Status** | Whether the project is under, on, or over budget |
+> Live budget vs. actuals for your active projects.  
+> Numbers are pulled from YAML files in `docs/data/`.
 
 ---
 
-## 🏗 Projects Displayed in This Dashboard
+{% set projects = [
+    # ("Display Name", "path to YAML in docs/")
+    ("New Project", "docs/data/New Project.yaml"),
+] %}
 
-> Currently showing **106 E High Bluff**  
-> More projects can be added automatically — just add new `.yaml` files inside `docs/data/`
+{# ---------- Helpers ---------- #}
+{% macro dollars(n) -%}
+${{ "{:,}".format(n|int) }}
+{%- endmacro %}
 
-{% set p = read_yaml('docs/data/106 E High Bluff.yaml') %}
+{% macro used_bar(pct) -%}
+{% set blocks = (pct // 5) %}
+{% set bar = "█" * blocks ~ "░" * (20 - blocks) %}
+[{{ bar }}] {{ pct }}%
+{%- endmacro %}
 
-| Project | Budget | Spent | Remaining | Status |
-|--------|--------|-------|-----------|--------|
-| 106 E High Bluff | ${{ p.budget }} | ${{ p.spent }} | ${{ p.budget - p.spent }} | {% if p.spent > p.budget %}🚨 **Over Budget**{% elif p.spent == p.budget %}⚠️ **At Limit**{% else %}✅ **On Track**{% endif %} |
+{% macro status_label(budget, spent) -%}
+{% set remaining = budget - spent %}
+{% set used_pct = 0 if budget == 0 else (spent * 100 // budget) %}
+{% if remaining < 0 %}
+Over Budget
+{% elif used_pct >= 85 %}
+Watch
+{% else %}
+On Track
+{% endif %}
+{%- endmacro %}
 
 ---
 
-## ✅ How to Update the Dashboard
+### Portfolio Summary
 
-You **do not edit this page** to update data.
+| Project | Budget | Spent | Remaining | Used | Status |
+|---|---:|---:|---:|:---:|:---|
+{% for name, path in projects %}
+  {% set p = read_yaml(path) %}
+  {% set budget = p.budget|int %}
+  {% set spent = p.spent|int %}
+  {% set remaining = budget - spent %}
+  {% set used_pct = 0 if budget == 0 else (spent * 100 // budget) %}
+| **{{ name }}** | {{ dollars(budget) }} | {{ dollars(spent) }} | {{ dollars(remaining) }} | {{ used_bar(used_pct) }} | {{ status_label(budget, spent) }} |
+{% endfor %}
 
-To change values:
-1. Go to: **`docs/data/106 E High Bluff.yaml`**
-2. Update these numbers:
+---
 
-```yaml
-budget: 0          # total planned budget
-spent: 0           # amount already spent
-vendors_paid: 0
-invoices_outstanding: 0
-tasks_complete: 0
-tasks_total: 0
+### Project Health (details)
+
+{% for name, path in projects %}
+  {% set p = read_yaml(path) %}
+
+#### {{ name }}
+
+- **Vendors Paid:** {{ p.vendors_paid|default(0) }}
+- **Invoices Outstanding:** {{ p.invoices_outstanding|default(0) }}
+- **Tasks Complete:** {{ p.tasks_complete|default(0) }}/{{ p.tasks_total|default(0) }}
+
+{% set budget = p.budget|int %}
+{% set spent = p.spent|int %}
+{% set used_pct = 0 if budget == 0 else (spent * 100 // budget) %}
+
+**Spend Progress:** {{ used_bar(used_pct) }}
+
+---
+
+{% endfor %}
+
+> **Tip:** To update numbers, edit the matching YAML file in `docs/data/`.
