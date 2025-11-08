@@ -9,6 +9,9 @@ theme:
     - toc.integrate
     - content.code.copy
 
+plugins:
+  - macros
+
 nav:
   - Home: index.md
   - Dashboards:
