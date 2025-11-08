@@ -15,3 +15,7 @@ colors:
   tasks:   "#6366f1"     # indigo - task progress
 ---
 {% include "dashboards/_project-template.md" %}
+---
+
+## 📁 Files & Attachments
+{{ list_files(project_name="880 High Street") }}
