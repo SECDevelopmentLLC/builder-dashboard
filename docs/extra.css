@@ -1,0 +1,9 @@
+/* Style project page header */
+.project-header {
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
