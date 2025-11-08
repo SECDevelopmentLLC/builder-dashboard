@@ -1,50 +1,57 @@
-# scripts/macros.py
-import os, re, yaml
+# builder-dashboard/scripts/macros.py
+import os
+from pathlib import Path
+import yaml
 
 def define_env(env):
-    def _read_frontmatter():
-        page = env.page
-        with open(page.file.abs_src_path, "r", encoding="utf-8") as f:
-            text = f.read()
-        m = re.match(r"---\n(.*?)\n---\n(.*)", text, re.S)
-        if m:
-            front = yaml.safe_load(m.group(1))
-            return front
-        return {}
+    """Macros for MkDocs."""
 
-    env.macro(_read_frontmatter)
+    # Determine root of project
+    site_root = Path(__file__).parent.parent.resolve()
+    data_root = site_root / "builder-dashboard" / "docs" / "data"
+    photos_root = site_root / "photos"
 
-    @env.macro
-    def project_card():
-        data = _read_frontmatter()
-        project = data.get("project_name", "Project")
-        budget = float(data.get("budget", 0))
-        spent = float(data.get("spent", 0))
-        remain = max(budget - spent, 0)
-        vendors_paid = data.get("vendors_paid", 0)
-        invoices_out = data.get("invoices_outstanding", 0)
-        tasks_total = data.get("tasks_total", 0)
-        tasks_complete = data.get("tasks_complete", 0)
+    # -------------------------------------------------------
+    #  Load project financial + progress data from YAML
+    # -------------------------------------------------------
+    def load_project_data(project_name):
+        safe_name = project_name.replace("/", " ")
+        data_file = data_root / f"{safe_name}.yaml"
 
-        colors = data.get("colors", {})
-        c_project = colors.get("project", "#2980b9")
-        c_budget = colors.get("budget", "#27ae60")
-        c_vendors = colors.get("vendors", "#f39c12")
-        c_invoices = colors.get("invoices", "#c0392b")
-        c_tasks = colors.get("tasks", "#8e44ad")
+        if not data_file.exists():
+            return {
+                "project_name": project_name,
+                "budget": 0,
+                "spent": 0,
+                "vendors_paid": 0,
+                "invoices_outstanding": 0,
+                "tasks_complete": 0,
+                "tasks_total": 0,
+            }
 
-        return f"""
-<div style="border-left: 6px solid {c_project}; padding: 12px; margin: 18px 0; background: #fafafa;">
-<h2 style="margin-top: 0;">{project}</h2>
+        with open(data_file, "r") as f:
+            return yaml.safe_load(f)
 
-| Metric | Value |
-|------|------|
-| **Budgeted** | ${budget:,.0f} |
-| **Spent** | ${spent:,.0f} |
-| **Remaining** | ${remain:,.0f} |
-| **Vendors Paid** | {vendors_paid} |
-| **Invoices Outstanding** | {invoices_out} |
-| **Tasks Complete** | {tasks_complete}/{tasks_total} |
+    env.macro(load_project_data)
 
-</div>
-"""
+    # -------------------------------------------------------
+    #  List files (PDFs, images, spreadsheets) for the project
+    # -------------------------------------------------------
+    def list_files(project_name):
+        safe_name = project_name.replace("/", " ")
+        folder = photos_root / safe_name
+
+        if not folder.exists():
+            return f"_No uploaded files for **{project_name}** yet._"
+
+        allowed = {".pdf", ".jpg", ".jpeg", ".png", ".gif", ".webp", ".xlsx", ".docx"}
+        items = []
+
+        for f in sorted(folder.iterdir()):
+            if f.is_file() and f.suffix.lower() in allowed:
+                rel = f.relative_to(site_root)
+                items.append(f"- [{f.name}](/" + rel.as_posix() + ")")
+
+        return "\n".join(items) if items else f"_No supported files for **{project_name}** yet._"
+
+    env.macro(list_files)
