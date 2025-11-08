@@ -1,0 +1,19 @@
+site_name: BuildOps Docs
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Home: index.md
+  - Dashboards:
+      - Portfolio: dashboards/portfolio.md
+  - Boards:
+      - Report Board: boards/reports/index.md
+      - Staff Board: boards/staff.md
+      - Vendors Board: boards/vendors.md
+  - Projects: []
