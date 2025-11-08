@@ -1,0 +1,64 @@
+/* Project banner + subtle cards + progress bars (Style 1) */
+.proj-wrap {
+  --card: #ffffff;
+  --muted: rgba(0,0,0,.08);
+}
+
+.proj-banner {
+  border-left: 8px solid var(--proj);
+  background: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin: 8px 0 16px;
+}
+
+.proj-banner h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.kpi {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+
+.kpi h4 {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  opacity: .70;
+}
+
+.kpi .value {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--muted);
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* Color hooks per category */
+.bg-budget   { background: var(--budget); }
+.bg-vendors  { background: var(--vendors); }
+.bg-invoices { background: var(--invoices); }
+.bg-tasks    { background: var(--tasks); }
