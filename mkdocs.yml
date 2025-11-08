@@ -1,19 +1,26 @@
 site_name: BuildOps Docs
+site_url: https://secdevelopmentllc.github.io/builder-dashboard/
+
 theme:
   name: material
   features:
     - navigation.sections
+    - navigation.expand
+    - toc.integrate
     - content.code.copy
-    - search.suggest
-    - search.highlight
-extra_css:
-  - stylesheets/extra.css
+
 nav:
   - Home: index.md
   - Dashboards:
-      - Portfolio: dashboards/portfolio.md
-  - Boards:
-      - Report Board: boards/reports/index.md
-      - Staff Board: boards/staff.md
-      - Vendors Board: boards/vendors.md
-  - Projects: []
+      - Company Budget Overview: dashboards/company-budget.md
+      - Staff & Crew Assignments: dashboards/staff-assignments.md
+      - Vendor Billing Overview: dashboards/vendor-billing.md
+  - Projects:
+      - 106 E High Bluff:
+          - Budget: projects/106-e-high-bluff/budget.md
+          - Vendors: projects/106-e-high-bluff/vendors.md
+          - Tasks: projects/106-e-high-bluff/tasks.md
+          - Photos: projects/106-e-high-bluff/photos.md
+
+docs_dir: docs
+site_dir: site
