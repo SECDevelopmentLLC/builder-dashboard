@@ -1,10 +1,9 @@
-# docs/data/106 E High Bluff.yaml
+project_name: New Project        # Name of the project (you can rename anytime)
+budget: 0                        # Total planned budget
+spent: 0                         # Amount already spent
 
-budget: 0          # total planned budget
-spent: 0           # amount already spent
+vendors_paid: 0                  # Number of vendor invoices paid
+invoices_outstanding: 0          # Number of invoices not yet paid
 
-vendors_paid: 0
-invoices_outstanding: 0
-
-tasks_complete: 0
-tasks_total: 0
+tasks_complete: 0                # Number of tasks finished
+tasks_total: 0                   # Total number of tasks
