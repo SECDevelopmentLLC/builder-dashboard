@@ -14,6 +14,9 @@ plugins:
   - table-reader
   - glightbox
 
+extra_css:
+  - extra.css
+
 markdown_extensions:
   - pymdownx.snippets
 
@@ -24,4 +27,5 @@ nav:
       - Staff & Contractor Assignments: dashboards/staff-assignments.md
       - Vendor Billing Overview: dashboards/vendor-billing.md
   - Projects:
-      - New Project: projects/new-project.md
+      - 106 E High Bluff: projects/106 E High Bluff/index.md
+      - 880 High Street: projects/880 High Street/index.md
