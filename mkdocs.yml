@@ -13,14 +13,5 @@ nav:
   - Home: index.md
   - Dashboards:
       - Company Budget Overview: dashboards/company-budget.md
-      - Staff & Crew Assignments: dashboards/staff-assignments.md
+      - Staff & Contractor Assignments: dashboards/staff-assignments.md
       - Vendor Billing Overview: dashboards/vendor-billing.md
-  - Projects:
-      - 106 E High Bluff:
-          - Budget: projects/106-e-high-bluff/budget.md
-          - Vendors: projects/106-e-high-bluff/vendors.md
-          - Tasks: projects/106-e-high-bluff/tasks.md
-          - Photos: projects/106-e-high-bluff/photos.md
-
-docs_dir: docs
-site_dir: site
