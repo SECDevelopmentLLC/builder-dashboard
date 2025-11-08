@@ -1,6 +1,6 @@
-# Company Budget Overview
+# 🏗 Company Budget Overview
 
-This dashboard tracks **project budgets vs actual spending** across all active construction projects.  
+This dashboard tracks **project budgets vs actual spending** across all active construction projects.
 It provides real-time visibility into where money is being allocated and whether spending is staying on track.
 
 ---
@@ -16,33 +16,31 @@ It provides real-time visibility into where money is being allocated and whether
 
 ---
 
-## 🏗️ Projects Displayed in This Dashboard
+## 🏗 Projects Displayed in This Dashboard
 
-- 106 E High Bluff  
-- 1611 Ocean Blvd  
-- Dune Ridge Lots 3–5  
-- Additional homes as they are added
+> Currently showing **106 E High Bluff**  
+> More projects can be added automatically — just add new `.yaml` files inside `docs/data/`
 
----
+{% set p = read_yaml('docs/data/106 E High Bluff.yaml') %}
 
-## ✅ How to Interpret the Dashboard
-
-| Status | What It Means | Action Needed |
-|--------|---------------|---------------|
-| **On Track (Green)** | Spending is within expected range | Continue monitoring |
-| **Watch (Yellow)** | Spending is trending high | Review purchase orders and invoices |
-| **Over Budget (Red)** | Actual cost has exceeded approved limit | Immediate review and adjustment required |
+| Project | Budget | Spent | Remaining | Status |
+|--------|--------|-------|-----------|--------|
+| 106 E High Bluff | ${{ p.budget }} | ${{ p.spent }} | ${{ p.budget - p.spent }} | {% if p.spent > p.budget %}🚨 **Over Budget**{% elif p.spent == p.budget %}⚠️ **At Limit**{% else %}✅ **On Track**{% endif %} |
 
 ---
 
-## 🔍 Why This Dashboard Matters
+## ✅ How to Update the Dashboard
 
-- Helps prevent unexpected overspending  
-- Improves forecasting accuracy  
-- Supports better allocation of project resources  
-- Provides transparency for leadership + accounting
+You **do not edit this page** to update data.
 
----
+To change values:
+1. Go to: **`docs/data/106 E High Bluff.yaml`**
+2. Update these numbers:
 
-If you need updates to project names or cost data, notify accounting or update the project tracking spreadsheet.  
-This page updates automatically when new builds are added.
+```yaml
+budget: 0          # total planned budget
+spent: 0           # amount already spent
+vendors_paid: 0
+invoices_outstanding: 0
+tasks_complete: 0
+tasks_total: 0
