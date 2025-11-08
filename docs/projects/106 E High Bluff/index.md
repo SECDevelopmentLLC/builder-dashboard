@@ -15,3 +15,7 @@ colors:
   tasks:   "#8b5cf6"
 ---
 {% include "dashboards/_project-template.md" %}
+---
+
+## 📁 Files & Attachments
+{{ list_files(project_name="106 E High Bluff") }}
