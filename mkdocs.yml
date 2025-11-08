@@ -10,7 +10,9 @@ theme:
     - content.code.copy
 
 plugins:
-  - macros
+  - macros:
+      modules:
+        - scripts.macros
   - table-reader
   - glightbox
 
