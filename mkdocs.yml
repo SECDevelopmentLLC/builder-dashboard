@@ -14,9 +14,14 @@ plugins:
   - table-reader
   - glightbox
 
+markdown_extensions:
+  - pymdownx.snippets
+
 nav:
   - Home: index.md
   - Dashboards:
-    - Company Budget Overview: dashboards/company-budget.md
-    - Staff & Contractor Assignments: dashboards/staff-assignments.md
-    - Vendor Billing Overview: dashboards/vendor-billing.md
+      - Company Budget Overview: dashboards/company-budget.md
+      - Staff & Contractor Assignments: dashboards/staff-assignments.md
+      - Vendor Billing Overview: dashboards/vendor-billing.md
+  - Projects:
+      - New Project: projects/new-project.md
